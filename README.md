@@ -16,7 +16,7 @@ Host–pathogen protein–protein interactions are important for understanding m
 | 2 | Data preprocessing | Sequence Validation, Homology Clustering, Balanced and Imbalanced Data COnstruction, Homology aware data partitioning |
 | 3 | Feature extraction | Computes amino acid composition (AAC) as a standalone descriptor, and pseudo amino acid composition + conjoint triad (PAAC_CTriad) as a concatenated descriptor set. |
 | 4 | Machine learning (six classifiers) | Trains and evaluates Logistic Regression, SVM, Random Forest, XGBoost, LightGBM, and MLP via train/test evaluation across three imbalance ratios (1:1, 1:5, 1:10) and both feature sets. |
-| 5 | Hyperparameter tuning & LOPO validation | Tunes the top 3 classifier from Notebook 4, The model with the highest cross-validation MCC is selected for final evaluation.  Evaluates generalization via Leave-One-Pathogen-Out validation, holding out each bacterial species in turn. |
+| 5 | Hyperparameter tuning & LOPO validation | Tunes the top 3 classifier from Notebook 4, The model with the highest cross-validation MCC is selected for final evaluation.  Evaluates generalization via Leave-One-Pathogen-Out validation, holding out each bacterial species in turn. Also refits the selected model on the full dataset to produce a deployment-ready model, and applies it to predict new, unlabeled HP-PPI pairs. |
  
 ## Data
  - **`data/positive_dataset/`** — Positive host–pathogen interaction pairs for all four pathogens (CSV), plus one FASTA file per pathogen (`pathogenname_genome_feature.fasta`) containing the sequences of the interacting proteins, both host and pathogen, for that species.
@@ -36,7 +36,7 @@ Host–pathogen protein–protein interactions are important for understanding m
 2. Mount Google Drive and update the base path variable at the top of each notebook (`base_hpi_path`) to point to your copy of the `data/` folder.
 3. Run the notebooks in order (1 → 5). 
 4. To evaluate a different feature representation, set `feature_name` at the top of the relevant driver cell to `"AAC"`, `"PAAC_CTriad"`, or `"AAC_PAAC_CTriad"` or any feature desciptor of choice.
-5. <!-- TODO: one line on how to apply the final saved model to new host–pathogen pairs, once that step exists in Notebook 5 -->.
+5. To predict on new host-pathogen pairs, preprocess and feature-extract them the same way as training (Notebook 2 and 3), then run Notebook 5's Section 7, which loads the saved deployment model and outputs predicted interaction labels and probabilities.
 
 ## Extending to Other Pathogen Systems
  

@@ -1,5 +1,5 @@
 # Tutorial:Host_Pathogen_Protein_Protein_Interaction_Prediction
-A step-by-step, beginner-friendly machine learning tutorial for predicting host–pathogen protein-protein interactions (HP-PPIs), implemented in Google Colab. Using human–bacteria interaction data as a worked example, this repository walks through the full pipeline — from raw sequence data to a validated and deployable model.
+A step-by-step, beginner-friendly machine learning tutorial for predicting host–pathogen protein-protein interactions (HP-PPIs), implemented in Google Colab. Using human–bacteria interaction data as a worked example, this repository walks through the full pipeline from raw sequence data to a validated and deployable model.
 
 ## Overview
 
@@ -17,9 +17,10 @@ Host–pathogen protein–protein interactions are important for understanding m
 | 3 | Feature extraction | Computes amino acid composition (AAC) as a standalone descriptor, and pseudo amino acid composition + conjoint triad (PAAC_CTriad) as a concatenated descriptor set. |
 | 4 | Machine learning (six classifiers) | Trains and evaluates Logistic Regression, SVM, Random Forest, XGBoost, LightGBM, and MLP via train/test evaluation across three imbalance ratios (1:1, 1:5, 1:10) and both feature sets. |
 | 5 | Hyperparameter tuning & LOPO validation | Tunes the top 3 classifier from Notebook 4, The model with the highest cross-validation MCC is selected for final evaluation.  Evaluates generalization via Leave-One-Pathogen-Out validation, holding out each bacterial species in turn. Also refits the selected model on the full dataset to produce a deployment-ready model, and applies it to predict new, unlabeled HP-PPI pairs. |
+| 6 | Deployment | Refits the selected best model from Notebook 5 on the full dataset (training + hold-out combined) to produce a deployment-ready model, and applies it to predict new, unlabeled HP-PPI pairs. |
  
 ## Data
- - **`data/positive_dataset/`** — Positive host–pathogen interaction pairs for all four pathogens (CSV), plus one FASTA file per pathogen (`pathogenname_genome_feature.fasta`) containing the sequences of the interacting proteins, both host and pathogen, for that species.
+ - **`data/positive_dataset/`** — Positive host–pathogen interaction datasets for all four pathogens (CSV), plus one FASTA file per pathogen (`pathogenname_genome_feature.fasta`) containing the sequences of the interacting proteins, both host and pathogen, for that species.
 - **`data/proteome/`** — The complete set of proteins and sequences for each organism (host and pathogens), used to sample negative pairs. The human protein list includes both protein name and sequence for each entry.
   
 - **Positive interactions:** Experimenatlly reported postive human-bacteria PPI curated from [database](https://www.bv-brc.org/) for Bacillus, Escherichia coli, Francisella and Yersinia" 
@@ -34,9 +35,9 @@ Host–pathogen protein–protein interactions are important for understanding m
  
 1. Clone this repository (or open notebooks directly in Colab).
 2. Mount Google Drive and update the base path variable at the top of each notebook (`base_hpi_path`) to point to your copy of the `data/` folder.
-3. Run the notebooks in order (1 → 5). 
-4. To evaluate a different feature representation, set `feature_name` at the top of the relevant driver cell to `"AAC"`, `"PAAC_CTriad"`, or `"AAC_PAAC_CTriad"` or any feature desciptor of choice.
-5. To predict on new host-pathogen pairs, preprocess and feature-extract them the same way as training (Notebook 2 and 3), then run Notebook 5's Section 7, which loads the saved deployment model and outputs predicted interaction labels and probabilities.
+3. Run the notebooks in order (1 → 6). 
+4. To evaluate a different feature representation, set `feature_name` at the top of the relevant driver cell to `"AAC"` or `"PAAC_CTriad"` or any feature desciptor of choice.
+5. To predict on new host-pathogen pairs, preprocess and feature-extract them the same way as training (Notebook 2 and 3), then run Notebook 6, which loads the saved deployment model and outputs predicted interaction labels and probabilities.
 
 ## Extending to Other Pathogen Systems
  
@@ -44,7 +45,7 @@ This workflow is designed to be adapted beyond human–bacteria interactions:
 - Replace the positive interaction and sequence data in `data/` with pairs relevant to your host–pathogen system of interest.
 - Curate the all the host and pathogen proteins and their protein sequences
 - Re-run Notebooks 1–3 for the new dataset.
-- Notebooks 4–5 require no changes beyond pointing to the new feature directories.
+- Notebooks 4–6 require no changes beyond pointing to the new feature directories.
 
 
 ## Notes on Scalability
